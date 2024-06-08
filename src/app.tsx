@@ -109,6 +109,23 @@ export default function App() {
         setState(State.dragging);
       }}
     >
+      <input
+        type="file"
+        accept="image/*"
+        onInput={async (event) => {
+          const files = event.currentTarget.files;
+          if (files === null) {
+            return;
+          }
+          for (const file of files) {
+            const result = await trimWhitespace(file);
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(result);
+            a.download = file.name;
+            a.click();
+          }
+        }}
+      />
       {getStateMessage(state)}
     </main>
   );
